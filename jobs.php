@@ -1,7 +1,8 @@
 <?php
 
-require_once 'app/Models/Job.php';
-require_once 'app/Models/Project.php';
+require_once('app/Models/Job.php');
+require_once('app/Models/Project.php');
+require_once('app/Models/Printable.php');
 
 // ============================================================
 // --- ↓↓ Trabajos ↓↓ -----------------------------------------
@@ -34,14 +35,14 @@ $projects = [
 ];
 
 
-function printElement($job){
+function printElement(Printable $job){
     if($job->visible == false){
         return;
     }
     
     echo '<li class="work-position">';
     echo '<h5>' . $job->getTitle() . '</h5>';
-    echo '<p>' . $job->description . '</p>';
+    echo '<p>' . $job->getDescription() . '</p>';
     echo '<p>' . $job->getDurationAsString() . '</p>';
     echo '<strong>Achievements:</strong>';
     echo '<ul>';
