@@ -32,6 +32,7 @@ build/Release
 /bower_components/
 /node_modules/
 node_modules/
+vendor/
 
 # Optional npm cache directory
 .npm
