@@ -1,29 +1,6 @@
 <?php
 
-require_once 'vendor/autoload.php';
-
-use Illuminate\Database\Capsule\Manager as Capsule; //Paquete de Laravel "Illumintae - Eloquent"
 use App\Models\Job;
-
-// ↓↓ Incialización de "Eloquent" para la 
-// conexión con la base de datos ↓↓
-$capsule = new Capsule;
-
-$capsule->addConnection([
-    'driver'    => 'mysql',
-    'host'      => 'localhost',
-    'database'  => 'pruebaphp',
-    'username'  => 'root',
-    'password'  => '',
-    'charset'   => 'utf8',
-    'collation' => 'utf8_unicode_ci',
-    'prefix'    => '',
-]);
-
-// ↓↓ Make this Capsule instance available globally via static methods... (optional)
-$capsule->setAsGlobal();
-// ↓↓ Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
-$capsule->bootEloquent();
 
 if(!empty($_POST)){
     $job = new Job();
