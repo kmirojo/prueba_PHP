@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-class Job extends BaseElement {
-    public function __construct($title, $description){
-        $newTitle = 'Job: ' . $title;
-        $this->title = $newTitle;
-        // parent::__construct($title, $description); // Constructor del "Padre"
-    }
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Por medio de ORM "abstraigo" la tabla Jobs en la 
+ * clase Job para que pueda ser accedida desde la 
+ * programación directamente
+ * */
+class Job extends Model {
+    protected $table = 'jobs';// => DB Table
 
     public function getDurationAsString() {
         $years = floor($this->months / 12);

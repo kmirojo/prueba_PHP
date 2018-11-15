@@ -1,9 +1,8 @@
 <?php
-
 require_once 'vendor/autoload.php';
 
 use Illuminate\Database\Capsule\Manager as Capsule; //Paquete de Laravel "Illumintae - Eloquent"
-use App\Models\Job;
+use App\Models\Project;
 
 // ↓↓ Incialización de "Eloquent" para la 
 // conexión con la base de datos ↓↓
@@ -26,12 +25,11 @@ $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
 if(!empty($_POST)){
-    $job = new Job();
-    $job->title = $_POST['title'];
-    $job->description = $_POST['description'];
-    $job->save();
+    $project = new Project();
+    $project->title = $_POST['title'];
+    $project->description = $_POST['description'];
+    $project->save();
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -40,11 +38,11 @@ if(!empty($_POST)){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add job</title>
+    <title>Add Project</title>
 </head>
 <body>
-    <h1>Add Job</h1>
-    <form action="addJob.php" method="POST">
+    <h1>Add Project</h1>
+    <form action="addProject.php" method="POST">
         <p>
             <label for="">
                 Title
