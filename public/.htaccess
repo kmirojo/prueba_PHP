@@ -1,0 +1,10 @@
+# ↓↓ Inicialización Motor para sobre escribir
+RewriteEngine on
+# ↓↓ Si el archivo que pido, no es un directorio
+RewriteCond %{REQUEST_FILENAME} !-d
+# ↓↓ Si el archivo que pido, no es un archivo
+RewriteCond %{REQUEST_FILENAME} !-f
+# ↓↓ %{REQUEST_FILENAME} != D || F
+RewriteRule ^ index.php [QSA, L]
+# ↑↑ QSA → lo que enviemos se agrega al Query String
+# ↑↑ L → Last - No más redirección

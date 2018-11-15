@@ -1,0 +1,10 @@
+# ↓↓ Inicialización Motor para sobre escribir
+RewriteEngine On
+# ↓↓ Condición para sobre escribir
+RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
+# ↑↑ Si estoy en "/public", no mas redireccionamiento
+# ↓↓ Reglas de redirección - Enviar redireccionamiento 302 hacia "/public"
+RewriteRule ^ %1 [L,NE,R=302]
+# ↓↓ Cuando encuentre cualquier cosa la manda directo a public
+RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+

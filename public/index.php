@@ -40,12 +40,14 @@ $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
 // ---------------------------------------------------------------------------------
-// --- ↓↓ Route Templates ↓↓ -------------------------------------------------------
+// --- ↓↓ Request (Diactoros) ↓↓ ---------------------------------------------------
 // ---------------------------------------------------------------------------------
-$route = $_GET['route'] ?? '/'; // Definir valor de $route
-
-if($route == '/'){
-    require '../index.php';
-} else if ($route == 'addJob') {
-    require '../addJob.php';
-}
+// ↓↓ Este "Request" me devuelve la ruta a la que estoy accediendo
+$request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
+    $_SERVER,
+    $_GET,
+    $_POST,
+    $_COOKIE,
+    $_FILES
+);
+var_dump($request->getUri()->getPath());
