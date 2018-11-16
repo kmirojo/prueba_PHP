@@ -4,17 +4,7 @@ require_once 'vendor/autoload.php';
 use App\Models\{Job, Project};
 
 
-// ============================================================
-// --- ↓↓ Trabajos ↓↓ -----------------------------------------
-// ============================================================
-//Trae todas las filas halladas en la tabla 'jobs'(DB)
-$jobs = Job::all();
 
-// ============================================================
-// --- ↓↓ Proyectos ↓↓ ----------------------------------------
-// ============================================================
-//Trae todas las filas halladas en la tabla 'projects'(DB)
-$projects = Project::all();
 
 
 function printElement($job){

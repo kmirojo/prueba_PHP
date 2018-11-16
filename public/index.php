@@ -57,12 +57,18 @@ $routerContainer = new RouterContainer();
 // ↓↓ Mapa de la rutas → Estructura que va a ir definiendo que ruta corresponde a que archivo
 $map = $routerContainer->getMap();
 
-// ↓↓ Rutas | (Nombre ruta, Ruta principal, template/archivo)
+// ↓↓ Rutas | (Nombre ruta, Ruta principal, "Handler")
 if($_SERVER['SERVER_NAME'] !== '127.0.0.1'){ // Verificar si las rutas las hago en localhost o en la nube
-    $map->get('index', '/', '../index.php');
+    $map->get('index', '/', [
+        'controller' => 'App\Controllers\IndexController',
+        'action' => 'indexAction'
+    ]);
     $map->get('addJobs', '/jobs/add', '../addJob.php');
 } else {
-    $map->get('index', '/prueba_PHP/', '../index.php');
+    $map->get('index', '/prueba_PHP/', [
+        'controller' => 'App\Controllers\IndexController',
+        'action' => 'indexAction'
+    ]);
     $map->get('addJobs', '/prueba_PHP/jobs/add', '../addJob.php');
 }
 
@@ -73,7 +79,13 @@ $route = $matcher->match($request);
 if(!$route){
     echo 'No route ';
 } else {
-    require $route->handler; // Me trae el archivo
+    $handlerData = $route->handler;
+    $controllerName = $handlerData['controller'];
+    $actionName = $handlerData['action'];
+
+    $controller = new $controllerName;
+    $controller->$actionName();
+    // require $route->handler; // Me trae el 'último' parametro de la ruta
     // var_dump($route->handler);
 }
 
