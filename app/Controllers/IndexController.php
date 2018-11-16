@@ -16,7 +16,7 @@ class IndexController {
         $name = 'Juan Rojas';
         $limitMonths = 2000;
 
-        include '../../views/index.php';
+        include '../views/index.php';
 
     }
 }
