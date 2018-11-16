@@ -15,9 +15,10 @@ error_reporting(E_ALL); // → reporte de todos los errores
 require_once '../vendor/autoload.php';
 
 // ---------------------------------------------------------------------------------
-// --- ↓↓ Eloquent (Paquete de Laravel) ↓↓ -----------------------------------------
+// --- ↓↓ Sección "Use" ↓↓ -----------------------------------------------------------
 // ---------------------------------------------------------------------------------
-use Illuminate\Database\Capsule\Manager as Capsule; 
+use Illuminate\Database\Capsule\Manager as Capsule; // Eloquent (Paquete de Laravel)
+use Aura\Router\RouterContainer; // Aura Router
 
 // ↓↓ Incialización de "Eloquent" para la 
 // conexión con la base de datos ↓↓
@@ -40,7 +41,7 @@ $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
 // ---------------------------------------------------------------------------------
-// --- ↓↓ Request (Diactoros) ↓↓ ---------------------------------------------------
+// --- ↓↓ Request (Diactoros) | Router (Aura Router) ↓↓ ----------------------------
 // ---------------------------------------------------------------------------------
 // ↓↓ Este "Request" me devuelve la ruta a la que estoy accediendo
 $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
@@ -50,4 +51,29 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
     $_COOKIE,
     $_FILES
 );
-var_dump($request->getUri()->getPath());
+
+// ↓↓ Inicializador del "contenedor" de la ruta que me da "Aura Router"
+$routerContainer = new RouterContainer();
+// ↓↓ Mapa de la rutas → Estructura que va a ir definiendo que ruta corresponde a que archivo
+$map = $routerContainer->getMap();
+
+// ↓↓ Rutas | (Nombre ruta, Ruta principal, template/archivo)
+if($_SERVER['SERVER_NAME'] !== '127.0.0.1'){ // Verificar si las rutas las hago en localhost o en la nube
+    $map->get('index', '/', '../index.php');
+    $map->get('addJobs', '/jobs/add', '../addJob.php');
+} else {
+    $map->get('index', '/prueba_PHP/', '../index.php');
+    $map->get('addJobs', '/prueba_PHP/jobs/add', '../addJob.php');
+}
+
+// ↓↓ Matcher → Objeto que compara el request con el mapa
+$matcher = $routerContainer->getMatcher();
+$route = $matcher->match($request);
+
+if(!$route){
+    echo 'No route ';
+} else {
+    require $route->handler; // Me trae el archivo
+    // var_dump($route->handler);
+}
+
