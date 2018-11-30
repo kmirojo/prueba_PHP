@@ -82,6 +82,7 @@ if($_SERVER['SERVER_NAME'] !== '127.0.0.1'){ // Verificar si las rutas las hago 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 
+// ↓↓ Impresión de contenido de la BD en la vista
 function printElement($job){
     // if($job->visible == false){
     //     return;
@@ -100,6 +101,7 @@ function printElement($job){
     echo '</li>';   
 }
 
+// ↓↓ Enrutador
 if(!$route){
     echo 'No route ';
 } else {
