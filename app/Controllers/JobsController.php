@@ -19,6 +19,8 @@ class JobsController extends BaseController{
 
         $action = $_SERVER['REQUEST_URI']; // Variable creada para el 'action' del FORM
 
-        echo $this->renderHTML('addJob.twig');
+        return $this->renderHTML('addJob.twig', [
+            'action' => $action
+        ]);
     }
 }

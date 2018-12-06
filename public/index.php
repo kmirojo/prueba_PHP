@@ -41,7 +41,7 @@ $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
 // ---------------------------------------------------------------------------------
-// --- ↓↓ Request (Diactoros) | Router (Aura Router) ↓↓ ----------------------------
+// --- ↓↓ Request (Diactoros | PSR7) | Router (Aura Router) ↓↓ ---------------------
 // ---------------------------------------------------------------------------------
 // ↓↓ Este "Request" me devuelve la ruta a la que estoy accediendo
 $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
@@ -121,7 +121,9 @@ if(!$route){
     $actionName = $handlerData['action'];
 
     $controller = new $controllerName;
-    $controller->$actionName($request);// Traemos la acción dentro del controlador
+    $response = $controller->$actionName($request);// Traemos la acción dentro del controlador
+
+    echo $response->getBody();
     // require $route->handler; // Me trae el 'último' parametro de la ruta
     // var_dump($route->handler);
 }

@@ -1,8 +1,9 @@
 <?php
 namespace App\Controllers;
 
-use \Twig_Loader_Filesystem;
+use \Twig_Loader_Filesystem; // Inicia con (/) porqueno utilizan "NameSpaces"
 use \Twig_Environment;
+use Zend\Diactoros\Response\HtmlResponse;// PSR7
 
 class BaseController {
     protected $templateEngine;
@@ -16,6 +17,6 @@ class BaseController {
     }
 
     public function renderHTML($fileName, $data = []) {
-        return $this->templateEngine->render($fileName, $data);
+        return new HtmlResponse($this->templateEngine->render($fileName, $data));
     }
 }
