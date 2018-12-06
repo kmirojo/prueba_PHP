@@ -68,7 +68,7 @@ if($_SERVER['SERVER_NAME'] !== '127.0.0.1'){ // Verificar si las rutas las hago 
         'action' => 'getAddJobAction'
     ]);
 
-    $map->get('saveJobs', '/jobs/add', [
+    $map->post('saveJobs', '/jobs/add', [
         'controller' => 'App\Controllers\JobsController',
         'action' => 'getAddJobAction'
     ]);
@@ -82,7 +82,7 @@ if($_SERVER['SERVER_NAME'] !== '127.0.0.1'){ // Verificar si las rutas las hago 
         'action' => 'getAddJobAction'
     ]);
 
-    $map->get('saveJobs', '/prueba_PHP/jobs/add', [
+    $map->post('saveJobs', '/prueba_PHP/jobs/add', [
         'controller' => 'App\Controllers\JobsController',
         'action' => 'getAddJobAction'
     ]);
@@ -121,7 +121,7 @@ if(!$route){
     $actionName = $handlerData['action'];
 
     $controller = new $controllerName;
-    $controller->$actionName();
+    $controller->$actionName($request);// Traemos la acción dentro del controlador
     // require $route->handler; // Me trae el 'último' parametro de la ruta
     // var_dump($route->handler);
 }

@@ -8,7 +8,8 @@
 </head>
 <body>
     <h1>Add Job</h1>
-    <form action="/jobs/add" method="POST">
+    <!-- /jobs/add → Ruta dinámica -->
+    <form action="<?php echo $action;?>" method="POST">
         <p>
             <label for="">
                 Title
