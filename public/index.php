@@ -67,12 +67,22 @@ if($_SERVER['SERVER_NAME'] !== '127.0.0.1'){ // Verificar si las rutas las hago 
         'controller' => 'App\Controllers\JobsController',
         'action' => 'getAddJobAction'
     ]);
+
+    $map->get('saveJobs', '/jobs/add', [
+        'controller' => 'App\Controllers\JobsController',
+        'action' => 'getAddJobAction'
+    ]);
 } else {
     $map->get('index', '/prueba_PHP/', [
         'controller' => 'App\Controllers\IndexController',
         'action' => 'indexAction'
     ]);
     $map->get('addJobs', '/prueba_PHP/jobs/add', [
+        'controller' => 'App\Controllers\JobsController',
+        'action' => 'getAddJobAction'
+    ]);
+
+    $map->get('saveJobs', '/prueba_PHP/jobs/add', [
         'controller' => 'App\Controllers\JobsController',
         'action' => 'getAddJobAction'
     ]);
@@ -101,9 +111,10 @@ function printElement($job){
     echo '</li>';   
 }
 
-// ↓↓ Enrutador
+// ↓↓ Enrutador ---------------------------------------
 if(!$route){
-    echo 'No route ';
+    // echo "No route => $request";
+    echo "No route";
 } else {
     $handlerData = $route->handler;
     $controllerName = $handlerData['controller'];
