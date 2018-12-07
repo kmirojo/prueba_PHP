@@ -15,6 +15,10 @@ error_reporting(E_ALL); // → reporte de todos los errores
 require_once '../vendor/autoload.php';
 
 // ---------------------------------------------------------------------------------
+// --- ↓↓ Formato y seguridad de Acceso ↓↓ -----------------------------------------
+// ---------------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------------
 // --- ↓↓ Sección "Use" ↓↓ -----------------------------------------------------------
 // ---------------------------------------------------------------------------------
 use Illuminate\Database\Capsule\Manager as Capsule; // Eloquent (Paquete de Laravel)
@@ -81,7 +85,6 @@ if($_SERVER['SERVER_NAME'] !== '127.0.0.1'){ // Verificar si las rutas las hago 
         'controller' => 'App\Controllers\JobsController',
         'action' => 'getAddJobAction'
     ]);
-
     $map->post('saveJobs', '/prueba_PHP/jobs/add', [
         'controller' => 'App\Controllers\JobsController',
         'action' => 'getAddJobAction'

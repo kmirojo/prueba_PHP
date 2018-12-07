@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add job</title>
-</head>
-<body>
+{# Extiendo de "layout.twig" como mi "Contendor" principal #}
+{% extends "layout.twig" %}
+{# Guardo en el bloque "content" el contenido de esta página #}
+{% block content %}
     <h1>Add Job</h1>
-    <!-- /jobs/add → Ruta dinámica -->
-    <form action="{{action}}" method="POST">
+    <div class="alert alert-primary" role="alert">
+        {{ responseMessage }}
+    </div>  
+    {# /jobs/add → Ruta dinámica (action) #}
+    <form action="{{action}}" method="POST" enctype="multipart/form-data">
         <p>
             <label for="">
                 Title
@@ -22,8 +20,10 @@
             </label>
             <input type="text" name="description">
         </p>
-
+        <p>
+            <input type="file" name="logo">
+        </p>
+    
         <button type="submit">Save</button>
     </form>
-</body>
-</html>
+{% endblock %}
