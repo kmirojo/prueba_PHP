@@ -1,0 +1,27 @@
+{# Extiendo de "layout.twig" como mi "Contendor" principal #}
+{% extends "layout.twig" %}
+
+{# Guardo en el bloque "content" el contenido de esta página #}
+{% block content %}
+    <h1>Add User</h1>
+    <div class="alert alert-primary" role="alert">
+        {{ responseMessage }}
+    </div>
+    
+    <form action="/prueba_PHP/users/save" method="POST">
+        <p>
+            <label for="">Name:</label>
+            <input type="text" name="name" placeholder="name"><br>
+        </p>
+        <p>
+            <label for="">Email:</label>
+            <input type="text" name="email" placeholder="email"><br>
+        </p>
+        <p>
+            <label for="">Password:</label>
+            <input type="password" name="password" placeholder="password"><br>
+        </p>
+
+        <button type="submit">Save</button>
+    </form>
+{% endblock %}

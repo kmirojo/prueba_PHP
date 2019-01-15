@@ -15,6 +15,11 @@ error_reporting(E_ALL); // → reporte de todos los errores
 require_once '../vendor/autoload.php';
 
 // ---------------------------------------------------------------------------------
+// --- ↓↓ Inicialización de sesion ↓↓ ----------------------------------------------
+// ---------------------------------------------------------------------------------
+session_start();
+
+// ---------------------------------------------------------------------------------
 // --- ↓↓ Formato y seguridad de Acceso ↓↓ -----------------------------------------
 // ---------------------------------------------------------------------------------
 
@@ -69,25 +74,84 @@ if($_SERVER['SERVER_NAME'] !== '127.0.0.1'){ // Verificar si las rutas las hago 
     ]);
     $map->get('addJobs', '/jobs/add', [
         'controller' => 'App\Controllers\JobsController',
-        'action' => 'getAddJobAction'
+        'action' => 'getAddJobAction',
+        'auth' => true
     ]);
-
     $map->post('saveJobs', '/jobs/add', [
         'controller' => 'App\Controllers\JobsController',
-        'action' => 'getAddJobAction'
+        'action' => 'getAddJobAction',
+        'auth' => true
     ]);
-} else {
+    $map->get('addUser', '/user/add', [
+        'controller' => 'App\Controllers\UsersController',
+        'action' => 'getAddUser',
+        'auth' => true
+    ]);
+    $map->post('saveUser', '/users/save', [
+        'controller' => 'App\Controllers\UsersController',
+        'action' => 'postSaveUser',
+        'auth' => true
+    ]);
+    $map->get('loginForm', '/login', [
+        'controller' => 'App\Controllers\AuthController',
+        'action' => 'getLogin'
+    ]);
+    $map->post('auth', '/auth', [
+        'controller' => 'App\Controllers\AuthController',
+        'action' => 'postLogin'
+    ]);
+    $map->get('admin', '/admin', [
+        'controller' => 'App\Controllers\AdminController',
+        'action' => 'getIndex',
+        'auth' => true
+    ]);
+    $map->get('logout', '/logout', [
+        'controller' => 'App\Controllers\AuthController',
+        'action' => 'getLogout',
+        'auth' => true
+    ]);
+} else { // Si estoy en LocalHost =====================================
     $map->get('index', '/prueba_PHP/', [
         'controller' => 'App\Controllers\IndexController',
         'action' => 'indexAction'
     ]);
     $map->get('addJobs', '/prueba_PHP/jobs/add', [
         'controller' => 'App\Controllers\JobsController',
-        'action' => 'getAddJobAction'
+        'action' => 'getAddJobAction',
+        'auth' => true
     ]);
     $map->post('saveJobs', '/prueba_PHP/jobs/add', [
         'controller' => 'App\Controllers\JobsController',
-        'action' => 'getAddJobAction'
+        'action' => 'getAddJobAction',
+        'auth' => true
+    ]);
+    $map->get('addUser', '/prueba_PHP/user/add', [
+        'controller' => 'App\Controllers\UsersController',
+        'action' => 'getAddUser',
+        'auth' => true
+    ]);
+    $map->post('saveUser', '/prueba_PHP/users/save', [
+        'controller' => 'App\Controllers\UsersController',
+        'action' => 'postSaveUser',
+        'auth' => true
+    ]);
+    $map->get('loginForm', '/prueba_PHP/login', [
+        'controller' => 'App\Controllers\AuthController',
+        'action' => 'getLogin'
+    ]);
+    $map->post('auth', '/prueba_PHP/auth', [
+        'controller' => 'App\Controllers\AuthController',
+        'action' => 'postLogin'
+    ]);
+    $map->get('admin', '/prueba_PHP/admin', [
+        'controller' => 'App\Controllers\AdminController',
+        'action' => 'getIndex',
+        'auth' => true
+    ]);
+    $map->get('logout', '/prueba_PHP/logout', [
+        'controller' => 'App\Controllers\AuthController',
+        'action' => 'getLogout',
+        'auth' => true
     ]);
 }
 
@@ -117,15 +181,44 @@ function printElement($job){
 // ↓↓ Enrutador ---------------------------------------
 if(!$route){
     // echo "No route => $request";
+    // var_dump($request);
     echo "No route";
 } else {
+    // print_r($request);
+    
     $handlerData = $route->handler;
     $controllerName = $handlerData['controller'];
     $actionName = $handlerData['action'];
+    $needsAuth = $handlerData['auth'] ?? false; // requerimiento de autenticación
 
+    $sessionUserId = $_SESSION['userId'] ?? null; // Id del usuario de la sesión(AuthController.php)
+        /**
+     * Si necesita autenticación y
+     * NO está definido el mensaje
+     * ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+     */
+    if($needsAuth && !$sessionUserId){
+        echo 'Protected Route';
+
+        die;
+    }
+    
     $controller = new $controllerName;
     $response = $controller->$actionName($request);// Traemos la acción dentro del controlador
+    
+    // Traigo los "Headers" de mi Response
+    foreach($response->getHeaders() as $name => $values){
 
+        // "Headers" de nuestras respuestas que no pueden tener más de un valor al imprimir,
+        // por lo tanto si viene con valores adicionales, debemos imprimirlos la misma cantidad
+        // de veces, para eso es el segúndo Bucle.
+        foreach($values as $value) {
+            // Remplazamos valores (%s), por los valores siguientes.
+            header(sprintf('%s: %s', $name, $value), false);
+        }
+    }
+
+    http_response_code($response->getStatusCode());
     echo $response->getBody();
     // require $route->handler; // Me trae el 'último' parametro de la ruta
     // var_dump($route->handler);

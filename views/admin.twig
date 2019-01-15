@@ -1,0 +1,19 @@
+{# Extiendo de "layout.twig" como mi "Contendor" principal #}
+{% extends "layout.twig" %}
+
+{# Guardo en el bloque "content" el contenido de esta página #}
+{% block content %}
+<h1>DashBoard</h1>
+<ul>
+    <li>
+        <a href="users/add">Add User</a>    
+    </li>
+    <li>
+        <a href="jobs/add">Add Job</a>
+    </li>
+</ul>
+
+<p>
+    <a href="logout">Logout</a>
+</p>
+{% endblock %}
